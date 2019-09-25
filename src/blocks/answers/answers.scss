@@ -1,0 +1,31 @@
+.answers {
+  &__checkbox {
+    display: none;
+
+    &:checked + .answers__label {
+      color: $grey-color;
+      background-color: $darkblue-color;
+    }
+
+    &:checked + .answers__label--error {
+      background-color: $error-color;
+      border-color: $error-color;
+    }
+  }
+
+  &__label {
+    display: block;
+    width: 150px;
+    margin: 0 0 20px 0;
+
+    @include oval;
+
+    color: $darkblue-color;
+    border: 2px solid $darkblue-color;
+
+    &:hover {
+      background-color: $grey-color;
+      cursor: pointer;
+    }
+  }
+}

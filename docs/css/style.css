@@ -1,0 +1,92 @@
+@font-face {
+  font-weight: normal;
+  font-family: "Ubuntu-Regular";
+  font-style: normal;
+  font-display: optional;
+  src: url("../fonts/Ubuntu-Regular.woff2") format("woff2"), url("../fonts/Ubuntu-Regular.woff") format("woff"); }
+
+html,
+body {
+  margin: 0;
+  font-family: Ubuntu-Regular, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000; }
+
+img {
+  display: block;
+  max-width: 100%; }
+
+.test {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1024px;
+  height: 560px;
+  margin: 0 auto;
+  padding-top: 50px; }
+  .test__header {
+    margin: 0;
+    font-size: 32px;
+    line-height: 34px; }
+  .test__answers {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-bottom: 150px; }
+  .test__tip {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #add9da;
+    opacity: 0; }
+  .test__tip--show {
+    opacity: 1; }
+  .test__submit {
+    width: 120px;
+    margin: 0 auto;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 22px;
+    line-height: 24px;
+    color: #ffffff;
+    background-color: #70c5e2;
+    border: none; }
+  .test__submit:hover {
+    background-color: #39b6e2;
+    cursor: pointer; }
+  .test__submit:disabled, .test__submit:disabled:hover {
+    cursor: default;
+    background-color: #b9e0ed; }
+  .test__submit.test__submit--error, .test__submit.test__submit--error:hover {
+    background-color: #f05a69; }
+  .test__submit--success, .test__submit--success:hover {
+    background-color: #8fbe83; }
+
+.answers__checkbox {
+  display: none; }
+  .answers__checkbox:checked + .answers__label {
+    color: #f2f2f2;
+    background-color: #3a76a3; }
+  .answers__checkbox:checked + .answers__label--error {
+    background-color: #f05a69;
+    border-color: #f05a69; }
+
+.answers__label {
+  display: block;
+  width: 150px;
+  margin: 0 0 20px 0;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: #3a76a3;
+  border: 2px solid #3a76a3; }
+  .answers__label:hover {
+    background-color: #f2f2f2;
+    cursor: pointer; }

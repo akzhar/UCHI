@@ -1,0 +1,39 @@
+//миксины
+@mixin highlightEdges () {
+  background: rgba(random(255), random(255), random(255), 0.3); //временно для сетки
+  outline: 1px solid rgb(random(255), random(255), random(255)); //временно для сетки
+}
+
+@mixin list0 () {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin oval () {
+  padding: 5px 15px;
+
+  border-radius: 5px;
+}
+
+// цвета
+$black-color: #000000;
+$white-color: #ffffff;
+$grey-color: #f2f2f2;
+$cyan-color: #add9da;
+$very-lightblue-color: #b9e0ed;
+$lightblue-color: #70c5e2;
+$blue-color: #39b6e2;
+$darkblue-color: #3a76a3;
+$error-color: #f05a69;
+$success-color: #8fbe83;
+
+// ширины
+$content-width: 1024px;
+$content-height: 560px;
+
+// шрифты
+$font-size-small: 22px;
+$line-height-small: 24px;
+$font-size-big: 32px;
+$line-height-big: 34px;

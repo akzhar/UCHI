@@ -1,0 +1,30 @@
+@font-face {
+  font-weight: normal;
+  font-family: "Ubuntu-Regular";
+  font-style: normal;
+  font-display: optional;
+  src: url("../fonts/Ubuntu-Regular.woff2") format("woff2"),
+  url("../fonts/Ubuntu-Regular.woff") format("woff");
+}
+
+@import "variables/variables.scss";
+
+html,
+body {
+  margin: 0;
+
+  font-family: Ubuntu-Regular, Arial, sans-serif;
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+  text-align: center;
+  color: $black-color;
+}
+
+img {
+  display: block;
+
+  max-width: 100%;
+}
+
+@import "test/test.scss";
+@import "answers/answers.scss";

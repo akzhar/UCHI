@@ -1,0 +1,37 @@
+{
+  "name": "ITFB",
+  "version": "1.0.0",
+  "description": "test task ITFB",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp start",
+    "clean": "gulp clean",
+    "styleLint": "gulp styleLint",
+    "esLint": "gulp esLint"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "stylelint": "^10.1.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "run-sequence": "^2.2.1",
+    "gulp-rename": "^1.4.0",
+    "rimraf": "^2.6.2",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-stylelint": "^7.0.0",
+    "gulp-eslint": "^6.0.0",
+    "browser-sync": "^2.26.3",
+    "dev-ip": "^1.0.1",
+    "gulp-posthtml": "^3.0.4",
+    "posthtml-include": "^1.2.0",
+    "utils-fs-read-file": "^1.0.0",
+    "gulp-data": "^1.3.1",
+    "gulp-w3c-html-validator": "^1.4.3"
+  }
+}

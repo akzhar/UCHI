@@ -1,0 +1,75 @@
+.test {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: $content-width;
+  height: $content-height;
+  margin: 0 auto;
+  padding-top: 50px;
+
+  &__header {
+    margin: 0;
+
+    font-size: $font-size-big;
+    line-height: $line-height-big;
+  }
+
+  &__answers {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    @include list0;
+    margin-bottom: 150px;
+  }
+
+  &__tip {
+    width: fit-content;
+    margin: 0 auto 20px auto;
+
+    @include oval;
+
+    background-color: $cyan-color;
+    opacity: 0;
+  }
+
+  &__tip--show {
+    opacity: 1;
+  }
+
+  &__submit {
+    width: 120px;
+    margin: 0 auto;
+
+    @include oval;
+
+    font-size: $font-size-small;
+    line-height: $line-height-small;
+
+    color: $white-color;
+    background-color: $lightblue-color;
+    border: none;
+  }
+
+  &__submit:hover {
+    background-color: $blue-color;
+    cursor: pointer;
+  }
+
+  &__submit:disabled,
+  &__submit:disabled:hover {
+    cursor: default;
+    background-color: $very-lightblue-color;
+  }
+
+  &__submit--error,
+  &__submit--error:hover {
+    background-color: $error-color;
+  }
+
+  &__submit--success,
+  &__submit--success:hover {
+    background-color: $success-color;
+  }
+}
