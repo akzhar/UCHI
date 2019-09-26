@@ -1,149 +1,162 @@
 (function() {
 
   const ERROR_LABEL_CLASS = 'answers__label--error';
-  const ERROR_SUBMIT_CLASS = 'test__submit--error';
-  const SUCCESS_SUBMIT_CLASS = 'test__submit--success';
-  const SHOW_TIP_CLASS = 'test__tip--show';
+  const ERROR_SUBMIT_CLASS = 'submit--error';
+  const SUCCESS_SUBMIT_CLASS = 'submit--success';
+  const SHOW_HINT_CLASS = 'hint--show';
   const TIMEOUT__SMALL = 1000;
   const TIMEOUT__BIG = 1500;
-  const TRANSITION_TIME = 2000;
+  const TRANSITION_TIME = 1500;
   const MS_PER_SEC = 1000;
   const KEY = + document.querySelector('#key').textContent;
 
-  const test = document.querySelector('.test');
-  const options = test.querySelectorAll('.answers__label');
-  const submitBtn = test.querySelector('.test__submit');
-  const tip = test.querySelector('.test__tip');
+  const testBlock = document.querySelector('.test');
+  const checkboxes = testBlock.querySelectorAll('.answers__checkbox');
+  const answers = testBlock.querySelectorAll('.answers__label');
+  const submitBtn = testBlock.querySelector('.submit');
+  const hintBlock = testBlock.querySelector('.hint');
 
   let atempt = {
-    Counter: {
-      chosenOptions: 0,
-      chosenRightOptions: 0,
-      rightOptionsTotal: 0,
+    Answers: {
+      chosenTotal: 0,
+      chosenCorrect: 0,
+      correctTotal: 0,
     },
-    wrongOptions: []
+    wrongAnswers: []
   };
+
+  answers.forEach(function(answer) {
+    answer.addEventListener('click', function(evt) {
+      evt.preventDefault();
+      let checkbox = this.previousElementSibling;
+      if (!checkbox.disabled) {
+        checkbox.checked = (checkbox.checked) ? false : true;
+      }
+      let haveAnswer = isSomethingChecked();
+      submitBtn.disabled = (haveAnswer) ? false : true;
+    });
+  });
 
   submitBtn.addEventListener('click', function(evt) {
     evt.preventDefault();
-    tip.classList.remove(SHOW_TIP_CLASS);
-    countAtemptOptions();
+    hintBlock.classList.remove(SHOW_HINT_CLASS);
+    disableAnswers(true);
+    countAtemptAnswers();
     checkAtempt();
   });
 
-  function countAtemptOptions() {
-    resetCounters();
-    options.forEach(function(option) {
-      let formula = option.textContent;
-      let isRightOption = isFormulaTrue(formula);
-      let checkbox = document.querySelector(`#${option.dataset.checkboxid}`);
+  function countAtemptAnswers() {
+    resetAtemptAnswers();
+    answers.forEach(function(answer) {
+      let formula = answer.textContent;
+      let isRightAnswer = isFormulaTrue(formula);
+      let checkbox = answer.previousElementSibling;
       if (checkbox.checked) {
-        atempt.Counter.chosenOptions++;
-        if (isRightOption) {
-          atempt.Counter.chosenRightOptions++;
+        atempt.Answers.chosenTotal++;
+        if (isRightAnswer) {
+          atempt.Answers.chosenCorrect++;
         } else {
-          atempt.wrongOptions.push(option);
+          atempt.wrongAnswers.push(answer);
         }
       }
-      if (isRightOption) {
-        atempt.Counter.rightOptionsTotal++;
+      if (isRightAnswer) {
+        atempt.Answers.correctTotal++;
       }
     });
   }
 
   function checkAtempt() {
-    const chosenRightOptions = atempt.Counter.chosenRightOptions;
-    const chosenOptions = atempt.Counter.chosenOptions;
-    const rightOptionsTotal = atempt.Counter.rightOptionsTotal;
+    const chosenCorrect = atempt.Answers.chosenCorrect;
+    const chosenTotal = atempt.Answers.chosenTotal;
+    const correctTotal = atempt.Answers.correctTotal;
 
-    if (chosenOptions === 0) {
+    if (chosenTotal !== chosenCorrect) {
+      markWrongAnswers();
+      wrongAnswerAction('Вычисли x');
       return;
     }
 
-    if (chosenOptions !== chosenRightOptions) {
-      wrongAnswerAction();
+    if (correctTotal !== chosenCorrect) {
+      wrongAnswerAction('Это не все правильные ответы');
       return;
     }
 
-    if (rightOptionsTotal !== chosenRightOptions) {
-      notAllAnswersAction();
-      return;
-    }
-
-    if (chosenOptions === rightOptionsTotal
-    && chosenOptions === chosenRightOptions) {
-      allAnswersAction();
+    if (chosenTotal === correctTotal && chosenTotal === chosenCorrect) {
+      rightAnswerAction();
     }
   }
 
-  function wrongAnswerAction() {
-    disableSubmit();
-    atempt.wrongOptions.forEach(function(option) {
-      option.classList.add(ERROR_LABEL_CLASS);
+  function wrongAnswerAction(hintText) {
+    submitBtn.classList.add(ERROR_SUBMIT_CLASS);
+    hintBlock.textContent = hintText;
+    hintBlock.classList.add(SHOW_HINT_CLASS);
+    window.setTimeout(getReadyForNextAtempt, TIMEOUT__SMALL);
+  }
+
+  function rightAnswerAction() {
+    submitBtn.classList.add(SUCCESS_SUBMIT_CLASS);
+    hideTestBlock();
+  }
+
+  function markWrongAnswers() {
+    atempt.wrongAnswers.forEach(function(answer) {
+      answer.classList.add(ERROR_LABEL_CLASS);
       window.setTimeout(function() {
-        option.classList.remove(ERROR_LABEL_CLASS);
+        answer.classList.remove(ERROR_LABEL_CLASS);
       }, TIMEOUT__SMALL);
     });
-    window.setTimeout(function() {
-      getReadyForNextAtempt('Вычисли x');
-    }, TIMEOUT__SMALL);
   }
 
-  function notAllAnswersAction() {
-    disableSubmit();
+  function hideTestBlock() {
     window.setTimeout(function() {
-      getReadyForNextAtempt('Это не все правильные ответы');
-    },TIMEOUT__SMALL);
-  }
-
-  function allAnswersAction() {
-    submitBtn.classList.add(SUCCESS_SUBMIT_CLASS);
-    tip.classList.remove(SHOW_TIP_CLASS);
-    window.setTimeout(function() {
-      test.style = `opacity: 0; transition: ${TRANSITION_TIME / MS_PER_SEC}s;`;
+      testBlock.style = `opacity: 0; transition: ${TRANSITION_TIME / MS_PER_SEC}s;`;
     }, TIMEOUT__BIG);
     window.setTimeout(function() {
-      test.style = 'display: none;';
+      testBlock.style = 'display: none;';
     }, TIMEOUT__BIG + TRANSITION_TIME);
   }
 
-  function getReadyForNextAtempt(tipText) {
-    unableSubmit();
+  function getReadyForNextAtempt() {
+    submitBtn.classList.remove(ERROR_SUBMIT_CLASS);
     untickAllCheckboxes();
-    tip.textContent = tipText;
-    tip.classList.add(SHOW_TIP_CLASS);
+    disableAnswers(false);
+    submitBtn.disabled = true;
   }
 
   function untickAllCheckboxes() {
-    options.forEach(function(option) {
-      let checkbox = document.querySelector(`#${option.dataset.checkboxid}`);
+    answers.forEach(function(answer) {
+      let checkbox = answer.previousElementSibling;
       checkbox.checked = false;
     });
   }
 
-  function resetCounters() {
-    for(let counter in atempt.Counter) {
-      if({}.hasOwnProperty.call(atempt.Counter, counter)) {
-        atempt.Counter[counter] = 0;
+  function disableAnswers(boolean) {
+    checkboxes.forEach(function(checkbox) {
+      checkbox.disabled = boolean;
+    });
+  }
+
+  function resetAtemptAnswers() {
+    for (let key in atempt.Answers) {
+      if({}.hasOwnProperty.call(atempt.Answers, key)) {
+        atempt.Answers[key] = 0;
       }
     }
-    atempt.wrongOptions = [];
+    atempt.wrongAnswers = [];
   }
 
   function isFormulaTrue(formula) {
-    formula = formula.replace('=', '===');
-    formula = formula.replace('x', 'KEY');
+    formula = formula.replace('=', '===').replace('x', 'KEY');
     return (eval(formula)) ? true : false;
   }
 
-  function disableSubmit() {
-    submitBtn.classList.add(ERROR_SUBMIT_CLASS);
-    submitBtn.disabled = true;
-  }
-
-  function unableSubmit() {
-    submitBtn.classList.remove(ERROR_SUBMIT_CLASS);
-    submitBtn.disabled = false;
+  function isSomethingChecked() {
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        return true;
+      }
+    }
+    return false;
   }
 
 })();

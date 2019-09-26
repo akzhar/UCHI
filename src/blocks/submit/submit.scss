@@ -1,0 +1,34 @@
+.submit {
+  width: 120px;
+
+  @include oval;
+
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+
+  background-color: $lightblue-color;
+  color: $white-color;
+  border: none;
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+    background-color: $blue-color;
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: $very-lightblue-color;
+  }
+
+  &--error,
+  &--error:not(:disabled):hover {
+    cursor: default;
+    background-color: $error-color;
+  }
+
+  &--success,
+  &--success:not(:disabled):hover {
+    cursor: default;
+    background-color: $success-color;
+  }
+}
