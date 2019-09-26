@@ -1,0 +1,12 @@
+.hint {
+  width: fit-content;
+
+  @include oval;
+
+  background-color: $cyan-color;
+  opacity: 0;
+}
+
+.hint--show {
+  opacity: 1;
+}

@@ -1,10 +1,25 @@
 .answers {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  padding: 0;
+  list-style: none;
+
   &__checkbox {
     display: none;
 
+    &:not(:disabled):not(:checked) + .answers__label:hover {
+      background-color: $grey-color;
+    }
+
+    &:not(:disabled) + .answers__label:hover {
+      cursor: pointer;
+    }
+
     &:checked + .answers__label {
-      color: $grey-color;
       background-color: $darkblue-color;
+      color: $grey-color;
     }
 
     &:checked + .answers__label--error {
@@ -22,10 +37,5 @@
 
     color: $darkblue-color;
     border: 2px solid $darkblue-color;
-
-    &:hover {
-      background-color: $grey-color;
-      cursor: pointer;
-    }
   }
 }
